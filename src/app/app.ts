@@ -1,22 +1,51 @@
-import * as PIXI from "pixi.js";
 import "./../styles/app.css";
+import {
+  Application,
+  loader,
+  Sprite,
+  utils,
+} from "./pixi-alias";
 
 let type: string = "WebGL";
-if (!PIXI.utils.isWebGLSupported()) {
+if (!utils.isWebGLSupported()) {
   type = "canvas";
 }
-PIXI.utils.sayHello(type);
+utils.sayHello(type);
 
 // The application will create a renderer using WebGL, if possible,
 // with a fallback to a canvas render. It will also setup the ticker
 // and the root stage PIXI.Container
-const app = new PIXI.Application({width: 512, height: 512});
+const app = new Application({width: 512, height: 512});
 app.renderer.autoResize = true;
 app.renderer.resize(512, 512);
 
-// The application will create a canvas element for you that you
+// The app creates a canvas element for you that you
 // can then insert into the DOM
 document.getElementById("container").appendChild(app.view);
+
+const TREASURE_HUNTER_PATH = "./assets/treasureHunter.json";
+
+// Load the assets
+loader
+  .add(TREASURE_HUNTER_PATH)
+  .on("progress", loadProgressHandler)
+  .load(setup);
+
+function loadProgressHandler(load, resource) {
+  console.log("loading: " + resource.url);
+  console.log("progress: " + load.progress + "%");
+}
+
+function setup() {
+  // TODO: set things up
+  console.log("set up successful");
+
+  /** Alias to point to the texture atlas's textures object */
+  const id = loader.resources[TREASURE_HUNTER_PATH].textures;
+
+  const dungeon = new Sprite(id["dungeon.png"]);
+  app.stage.addChild(dungeon);
+}
 
 // load the texture we need
 // PIXI.loader.add('bunny', 'bunny.png').load((loader, resources) => {
