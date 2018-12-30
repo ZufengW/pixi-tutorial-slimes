@@ -3,7 +3,16 @@
  */
 import * as PIXI from "pixi.js";
 
-export const Application = PIXI.Application;
-export const loader = PIXI.loader;
-export const Sprite = PIXI.Sprite;
-export const utils = PIXI.utils;
+import Application = PIXI.Application;
+import loader = PIXI.loader;
+import Sprite = PIXI.Sprite;
+import Texture = PIXI.Texture;
+import utils = PIXI.utils;
+
+export {
+  Application,
+  loader,
+  Sprite,
+  Texture,
+  utils,
+};

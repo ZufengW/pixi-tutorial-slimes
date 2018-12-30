@@ -1,4 +1,5 @@
 import "./../styles/app.css";
+import { create as createExplorer } from "./containers/explorer";
 import {
   Application,
   loader,
@@ -45,6 +46,10 @@ function setup() {
 
   const dungeon = new Sprite(id["dungeon.png"]);
   app.stage.addChild(dungeon);
+
+  const explorer = createExplorer(id["explorer.png"]);
+  explorer.position.set(68, app.stage.height / 2 - explorer.height / 2);
+  app.stage.addChild(explorer);
 }
 
 // load the texture we need
