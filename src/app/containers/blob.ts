@@ -1,11 +1,9 @@
 import {
-  Sprite,
+  MovingSprite,
   Texture,
 } from "../pixi-alias";
 
-export class Blob extends Sprite {
-
-  private dy: number = 0;
+export class Blob extends MovingSprite {
   private direction: number = 0;
   private speed: number = 0;
   private minY: number;

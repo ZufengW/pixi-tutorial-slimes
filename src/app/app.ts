@@ -1,12 +1,13 @@
 import "./../styles/app.css";
 import { Blob } from "./containers/blob";
 import { create as createDoor } from "./containers/door";
-import { create as createExplorer } from "./containers/explorer";
+import { Explorer } from "./containers/explorer";
 import { create as createTreasure } from "./containers/treasure";
 import { randRange } from "./helpers";
 import {
   Application,
   loader,
+  MovingSprite,
   Sprite,
   utils,
 } from "./pixi-alias";
@@ -42,10 +43,14 @@ function loadProgressHandler(load, resource) {
 }
 
 let gameState: (delta: number) => void;
-const blobs: Sprite[] = [];
+let explorer: Explorer;  // the player
+const blobs: MovingSprite[] = [];
 // Wall boundaries of dungeon.png
+const DUNGEON_MIX_X = 32;
+const DUNGEON_MAX_X = 32;
 const DUNGEON_MIN_Y = 20;
 const DUNGEON_MAX_Y = 480;
+const EXPLORER_SPEED = 4;
 
 function setup() {
   /** Alias to point to the texture atlas's textures object */
@@ -55,7 +60,7 @@ function setup() {
   const dungeon = new Sprite(id["dungeon.png"]);
   app.stage.addChild(dungeon);
 
-  const explorer = createExplorer(id["explorer.png"]);
+  explorer = new Explorer(id["explorer.png"], EXPLORER_SPEED);
   explorer.position.set(68, app.stage.height / 2 - explorer.height / 2);
   app.stage.addChild(explorer);
 
@@ -103,6 +108,7 @@ function gameLoop(delta: number) {
  * @param delta frame time difference
  */
 function play(delta: number) {
+  explorer.update(delta);
   blobs.forEach((blob) => {
     blob.update(delta);
   });

@@ -1,10 +1,22 @@
+import { setupMoveKeys } from "../input";
 import {
-  Sprite,
+  MovingSprite,
   Texture,
 } from "../pixi-alias";
 
-export function create(texture: Texture): Sprite {
-  const explorer = new Sprite(texture);
-  // TODO: add keyboard stuff and update function
-  return explorer;
+export class Explorer extends MovingSprite {
+  private speed: number = 0;
+
+  constructor(texture: Texture, speed: number) {
+    super(texture);
+    this.speed = speed;
+
+    setupMoveKeys(this, this.speed);
+  }
+
+  public update(delta: number): void {
+    // TODO: add keyboard stuff
+    this.x += this.dx * delta;
+    this.y += this.dy * delta;
+  }
 }
