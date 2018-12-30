@@ -12,9 +12,19 @@ h1 {
   text-align: center;
 }
 
+canvas {
+  /* to center the canvas within its parent */
+  display: inline-block;
+}
+
 #container {
   position: absolute;
   left: 50%;
   margin-right: -50%;
   transform: translate(-50%, 0)
 }
+
+#canvas-div {
+  text-align: center;
+}
+
