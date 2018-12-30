@@ -1,4 +1,5 @@
 import "./../styles/app.css";
+import { spriteCollision } from "./collision";
 import { Blob } from "./containers/blob";
 import { create as createDoor } from "./containers/door";
 import { Explorer } from "./containers/explorer";
@@ -113,9 +114,16 @@ function play(delta: number) {
     blob.update(delta);
   });
 
+  explorer.isHit = false;  // reset
+
   // postUpdate to update positions using velocity
   explorer.postUpdate(delta);
   blobs.forEach((blob) => {
     blob.postUpdate(delta);
+
+    // Check for overlap between explorer and blob
+    if (spriteCollision(explorer, blob)) {
+      explorer.isHit = true;
+    }
   });
 }

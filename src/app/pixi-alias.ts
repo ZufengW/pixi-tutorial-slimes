@@ -25,6 +25,7 @@ class MovingSprite extends PIXI.Sprite {
     this.y += this.dy * delta;
   }
 }
+import Rectangle = PIXI.Rectangle;
 import Sprite = PIXI.Sprite;
 import Texture = PIXI.Texture;
 import utils = PIXI.utils;
@@ -33,6 +34,7 @@ export {
   Application,
   loader,
   MovingSprite,
+  Rectangle,
   Sprite,
   Texture,
   utils,
