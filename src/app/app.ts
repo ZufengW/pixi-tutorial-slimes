@@ -28,7 +28,7 @@ app.renderer.resize(512, 512);
 
 // The app creates a canvas element for you that you
 // can then insert into the DOM
-document.getElementById("container").appendChild(app.view);
+document.getElementById("canvas-div").appendChild(app.view);
 
 const TREASURE_HUNTER_PATH = "./assets/treasureHunter.json";
 
