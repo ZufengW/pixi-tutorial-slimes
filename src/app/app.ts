@@ -1,4 +1,4 @@
-import * as PIXI from 'pixi.js';
+import * as PIXI from "pixi.js";
 
 let type: string = "WebGL";
 if (!PIXI.utils.isWebGLSupported()) {
