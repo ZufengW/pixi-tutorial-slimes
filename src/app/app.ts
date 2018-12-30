@@ -6,7 +6,7 @@ import {
 import { Blob } from "./containers/blob";
 import { create as createDoor } from "./containers/door";
 import { Explorer } from "./containers/explorer";
-import { create as createTreasure } from "./containers/treasure";
+import { Treasure } from "./containers/treasure";
 import { randRange } from "./helpers";
 import {
   Application,
@@ -48,6 +48,7 @@ function loadProgressHandler(load, resource) {
 
 let gameState: (delta: number) => void;
 let explorer: Explorer;  // the player
+let treasure: Treasure;  // treasure chest
 const blobs: MovingSprite[] = [];
 // Wall boundaries of dungeon.png
 const DUNGEON_MIX_X = 32;
@@ -73,7 +74,7 @@ function setup() {
   explorer.position.set(68, app.stage.height / 2 - explorer.height / 2);
   app.stage.addChild(explorer);
 
-  const treasure = createTreasure(id["treasure.png"]);
+  treasure = new Treasure(id["treasure.png"]);
   // Position the treasure next to the right edge of the canvas
   treasure.x = app.stage.width - treasure.width - 48;
   treasure.y = app.stage.height / 2 - treasure.height / 2;
@@ -135,4 +136,11 @@ function play(delta: number) {
     explorer, DUNGEON_MIX_X, DUNGEON_MAX_X - explorer.width,
     DUNGEON_MIN_Y, DUNGEON_MAX_Y - explorer.height,
   );
+
+  // If explorer and treasure overlap, treasure is held by player
+  if (spriteCollision(explorer, treasure)) {
+    treasure.holder = explorer;
+  }
+  // update treasure's position after player has finished updating
+  treasure.postUpdate(delta);
 }
