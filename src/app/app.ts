@@ -1,4 +1,5 @@
 import * as PIXI from "pixi.js";
+import "./../styles/app.css";
 
 let type: string = "WebGL";
 if (!PIXI.utils.isWebGLSupported()) {
@@ -15,7 +16,7 @@ app.renderer.resize(512, 512);
 
 // The application will create a canvas element for you that you
 // can then insert into the DOM
-document.body.appendChild(app.view);
+document.getElementById("container").appendChild(app.view);
 
 // load the texture we need
 // PIXI.loader.add('bunny', 'bunny.png').load((loader, resources) => {

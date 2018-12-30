@@ -1,0 +1,19 @@
+body {
+  background-color: rgb(23, 24, 28);
+  color: rgb(216, 213, 209);
+}
+
+a {
+  color: rgb(77, 172, 253);
+}
+
+h1 {
+  text-align: center;
+}
+
+#container {
+  position: absolute;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, 0)
+}
