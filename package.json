@@ -1,0 +1,22 @@
+{
+  "name": "pixi-tutorial-slimes",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "ZufengW",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack -p",
+    "start": "webpack-dev-server -d --content-base ./public"
+  },
+  "dependencies": {
+    "@types/pixi.js": "4.8.6",
+    "clean-webpack-plugin": "1.0.0",
+    "html-webpack-plugin": "3.2.0",
+    "pixi.js": "4.8.4",
+    "ts-loader": "5.3.2",
+    "typescript": "3.2.2",
+    "webpack": "4.28.3",
+    "webpack-cli": "3.1.2",
+    "webpack-dev-server": "3.1.14"
+  }
+}
