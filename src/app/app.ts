@@ -32,6 +32,8 @@ app.renderer.resize(512, 512);
 // The app creates a canvas element for you that you
 // can then insert into the DOM
 document.getElementById("canvas-div").appendChild(app.view);
+/** p node for displaying loading messages */
+const loadingP = document.getElementById("loading-p");
 
 const TREASURE_HUNTER_PATH = "./assets/treasureHunter.json";
 
@@ -42,8 +44,8 @@ loader
   .load(setup);
 
 function loadProgressHandler(load, resource) {
-  console.log("loading: " + resource.url);
-  console.log("progress: " + load.progress + "%");
+  loadingP.textContent = ("loading: " + resource.url);
+  loadingP.textContent = ("progress: " + load.progress + "%");
 }
 
 let gameState: (delta: number) => void;
@@ -58,6 +60,9 @@ const DUNGEON_MAX_Y = 480;
 const EXPLORER_SPEED = 4;
 
 function setup() {
+  // clear the loadingP
+  loadingP.textContent = "";
+
   /** Alias to point to the texture atlas's textures object */
   const id = loader.resources[TREASURE_HUNTER_PATH].textures;
 
