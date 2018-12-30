@@ -15,6 +15,15 @@ class MovingSprite extends PIXI.Sprite {
   public update(delta: number): void {
     return;
   }
+
+  /**
+   * Updates position using velocity. Call this after update().
+   * @param delta frame time
+   */
+  public postUpdate(delta: number): void {
+    this.x += this.dx * delta;
+    this.y += this.dy * delta;
+  }
 }
 import Sprite = PIXI.Sprite;
 import Texture = PIXI.Texture;

@@ -15,8 +15,6 @@ export class Explorer extends MovingSprite {
   }
 
   public update(delta: number): void {
-    // TODO: add keyboard stuff
-    this.x += this.dx * delta;
-    this.y += this.dy * delta;
+    // put stuff here
   }
 }

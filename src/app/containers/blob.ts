@@ -27,6 +27,5 @@ export class Blob extends MovingSprite {
     }
 
     this.dy = this.direction * this.speed;
-    this.y += this.dy * delta;
   }
 }

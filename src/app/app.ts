@@ -60,6 +60,11 @@ function setup() {
   const dungeon = new Sprite(id["dungeon.png"]);
   app.stage.addChild(dungeon);
 
+  // Make the exit door
+  const door = createDoor(id["door.png"]);
+  door.position.set(32, 0);
+  app.stage.addChild(door);
+
   explorer = new Explorer(id["explorer.png"], EXPLORER_SPEED);
   explorer.position.set(68, app.stage.height / 2 - explorer.height / 2);
   app.stage.addChild(explorer);
@@ -69,11 +74,6 @@ function setup() {
   treasure.x = app.stage.width - treasure.width - 48;
   treasure.y = app.stage.height / 2 - treasure.height / 2;
   app.stage.addChild(treasure);
-
-  // Make the exit door
-  const door = createDoor(id["door.png"]);
-  door.position.set(32, 0);
-  app.stage.addChild(door);
 
   // Make a line of blobs
   const NUM_BLOBS = 6;
@@ -111,5 +111,11 @@ function play(delta: number) {
   explorer.update(delta);
   blobs.forEach((blob) => {
     blob.update(delta);
+  });
+
+  // postUpdate to update positions using velocity
+  explorer.postUpdate(delta);
+  blobs.forEach((blob) => {
+    blob.postUpdate(delta);
   });
 }
