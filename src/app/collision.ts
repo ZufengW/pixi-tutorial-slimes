@@ -4,6 +4,28 @@ import { Rectangle, Sprite } from "./pixi-alias";
  * Functions for collision detection
  */
 
+/**
+ * Constrains a Sprite's position to keep it within bounds
+ * @param s the sprite to constrain
+ * @param minX minimum x position
+ * @param maxX maximum x position
+ * @param minY minimum y position
+ * @param maxY maximum y position
+ */
+export function constrainSpritePosition(
+    s: Sprite, minX: number, maxX: number, minY: number, maxY: number): void {
+  if (s.x < minX) {
+    s.x = minX;
+  } else if (s.x > maxX) {
+    s.x = maxX;
+  }
+  if (s.y < minY) {
+    s.y = minY;
+  } else if (s.y > maxY) {
+    s.y = maxY;
+  }
+}
+
  /**
   * Return whether or not s1 and s2 overlap based on their rectangular texture
   * @param r1 first sprite

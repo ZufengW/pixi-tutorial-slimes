@@ -1,5 +1,8 @@
 import "./../styles/app.css";
-import { spriteCollision } from "./collision";
+import {
+  constrainSpritePosition,
+  spriteCollision,
+} from "./collision";
 import { Blob } from "./containers/blob";
 import { create as createDoor } from "./containers/door";
 import { Explorer } from "./containers/explorer";
@@ -48,7 +51,7 @@ let explorer: Explorer;  // the player
 const blobs: MovingSprite[] = [];
 // Wall boundaries of dungeon.png
 const DUNGEON_MIX_X = 32;
-const DUNGEON_MAX_X = 32;
+const DUNGEON_MAX_X = 512 - 32;
 const DUNGEON_MIN_Y = 20;
 const DUNGEON_MAX_Y = 480;
 const EXPLORER_SPEED = 4;
@@ -126,4 +129,10 @@ function play(delta: number) {
       explorer.isHit = true;
     }
   });
+
+  // Constrain explorer to keep it within walls
+  constrainSpritePosition(
+    explorer, DUNGEON_MIX_X, DUNGEON_MAX_X - explorer.width,
+    DUNGEON_MIN_Y, DUNGEON_MAX_Y - explorer.height,
+  );
 }
