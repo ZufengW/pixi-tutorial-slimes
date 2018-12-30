@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
   entry: './src/app/app.ts',
   plugins: [
-    new CleanWebpackPlugin(['public/build']),
+    new CleanWebpackPlugin(['public/']),
     new CopyWebpackPlugin([ { from: 'src/assets', to: 'assets' } ]),
     new HtmlWebpackPlugin({
       template: 'src/templates/index.html'
