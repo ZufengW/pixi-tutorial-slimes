@@ -1,9 +1,6 @@
 import {
-  Application,
-  loader,
   Sprite,
   Texture,
-  utils,
 } from "../pixi-alias";
 
 export function create(texture: Texture): Sprite {

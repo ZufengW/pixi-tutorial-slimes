@@ -1,5 +1,7 @@
 import "./../styles/app.css";
+import { create as createDoor } from "./containers/door";
 import { create as createExplorer } from "./containers/explorer";
+import { create as createTreasure } from "./containers/treasure";
 import {
   Application,
   loader,
@@ -38,39 +40,25 @@ function loadProgressHandler(load, resource) {
 }
 
 function setup() {
-  // TODO: set things up
-  console.log("set up successful");
-
   /** Alias to point to the texture atlas's textures object */
   const id = loader.resources[TREASURE_HUNTER_PATH].textures;
 
+  // create and add the sprites
   const dungeon = new Sprite(id["dungeon.png"]);
   app.stage.addChild(dungeon);
 
   const explorer = createExplorer(id["explorer.png"]);
   explorer.position.set(68, app.stage.height / 2 - explorer.height / 2);
   app.stage.addChild(explorer);
+
+  const treasure = createTreasure(id["treasure.png"]);
+  // Position the treasure next to the right edge of the canvas
+  treasure.x = app.stage.width - treasure.width - 48;
+  treasure.y = app.stage.height / 2 - treasure.height / 2;
+  app.stage.addChild(treasure);
+
+  // Make the exit door
+  const door = createDoor(id["door.png"]);
+  door.position.set(32, 0);
+  app.stage.addChild(door);
 }
-
-// load the texture we need
-// PIXI.loader.add('bunny', 'bunny.png').load((loader, resources) => {
-//   // This creates a texture from a 'bunny.png' image
-//   const bunny = new PIXI.Sprite(resources.bunny.texture);
-
-//   // Setup the position of the bunny
-//   bunny.x = app.renderer.width / 2;
-//   bunny.y = app.renderer.height / 2;
-
-//   // Rotate around the center
-//   bunny.anchor.x = 0.5;
-//   bunny.anchor.y = 0.5;
-
-//   // Add the bunny to the scene we are building
-//   app.stage.addChild(bunny);
-
-//   // Listen for frame updates
-//   app.ticker.add(() => {
-//     // each frame we spin the bunny around a bit
-//     bunny.rotation += 0.01;
-//   });
-// });
