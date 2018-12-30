@@ -1,5 +1,5 @@
 import "./../styles/app.css";
-import { create as createBlob } from "./containers/blob";
+import { Blob } from "./containers/blob";
 import { create as createDoor } from "./containers/door";
 import { create as createExplorer } from "./containers/explorer";
 import { create as createTreasure } from "./containers/treasure";
@@ -41,6 +41,12 @@ function loadProgressHandler(load, resource) {
   console.log("progress: " + load.progress + "%");
 }
 
+let gameState: (delta: number) => void;
+const blobs: Sprite[] = [];
+// Wall boundaries of dungeon.png
+const DUNGEON_MIN_Y = 20;
+const DUNGEON_MAX_Y = 480;
+
 function setup() {
   /** Alias to point to the texture atlas's textures object */
   const id = loader.resources[TREASURE_HUNTER_PATH].textures;
@@ -68,13 +74,36 @@ function setup() {
   const NUM_BLOBS = 6;
   const BLOB_SPACING = 48;  // spacing between blobs
   const BLOB_X_OFFSET = 150;  // distance from left of stage for first blob
+  const BLOB_SPEED = 4;  // how fast the blobs move
 
   for (let i = 0; i < NUM_BLOBS; i++) {
-    const blob = createBlob(id["blob.png"]);
+    const direction = i % 2 === 0 ? 1 : -1;
+    const blob = new Blob(id["blob.png"], direction, BLOB_SPEED, DUNGEON_MIN_Y, DUNGEON_MAX_Y);
     const x = BLOB_SPACING * i + BLOB_X_OFFSET;
     // Give the blob a random y position
     const y = randRange(0 + blob.height, app.stage.height - (blob.height * 2));
     blob.position.set(x, y);
     app.stage.addChild(blob);
+    blobs.push(blob);
   }
+
+  // Start the game loop by adding the `gameLoop` function to
+  // Pixi's `ticker` and providing it with a `delta` argument.
+  gameState = play;
+  app.ticker.add((delta) => gameLoop(delta));
+}
+
+function gameLoop(delta: number) {
+  // Update the current game state
+  gameState(delta);
+}
+
+/**
+ * Playing
+ * @param delta frame time difference
+ */
+function play(delta: number) {
+  blobs.forEach((blob) => {
+    blob.update(delta);
+  });
 }
