@@ -1,7 +1,9 @@
 import "./../styles/app.css";
+import { create as createBlob } from "./containers/blob";
 import { create as createDoor } from "./containers/door";
 import { create as createExplorer } from "./containers/explorer";
 import { create as createTreasure } from "./containers/treasure";
+import { randRange } from "./helpers";
 import {
   Application,
   loader,
@@ -61,4 +63,18 @@ function setup() {
   const door = createDoor(id["door.png"]);
   door.position.set(32, 0);
   app.stage.addChild(door);
+
+  // Make a line of blobs
+  const NUM_BLOBS = 6;
+  const BLOB_SPACING = 48;  // spacing between blobs
+  const BLOB_X_OFFSET = 150;  // distance from left of stage for first blob
+
+  for (let i = 0; i < NUM_BLOBS; i++) {
+    const blob = createBlob(id["blob.png"]);
+    const x = BLOB_SPACING * i + BLOB_X_OFFSET;
+    // Give the blob a random y position
+    const y = randRange(0 + blob.height, app.stage.height - (blob.height * 2));
+    blob.position.set(x, y);
+    app.stage.addChild(blob);
+  }
 }
