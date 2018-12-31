@@ -6,6 +6,7 @@ import {
 import { Blob } from "./containers/blob";
 import { create as createDoor } from "./containers/door";
 import { Explorer } from "./containers/explorer";
+import { HealthBar } from "./containers/health-bar";
 import { Treasure } from "./containers/treasure";
 import { randRange } from "./helpers";
 import {
@@ -13,6 +14,8 @@ import {
   loader,
   MovingSprite,
   Sprite,
+  Text,
+  TextStyle,
   utils,
 } from "./pixi-alias";
 
@@ -48,10 +51,17 @@ function loadProgressHandler(load, resource) {
   loadingP.textContent = ("progress: " + load.progress + "%");
 }
 
+// Things used in the game
 let gameState: (delta: number) => void;
+let door: Sprite;  // exit door
 let explorer: Explorer;  // the player
 let treasure: Treasure;  // treasure chest
+let healthBar: HealthBar;  // player's health bar
 const blobs: MovingSprite[] = [];
+// Messages displayed when game ends
+const WIN_MESSAGE = "You Win!";
+const LOSE_MESSAGE = "You Lose!";
+let endTextMessage: Text;  // message displayed at the end
 // Wall boundaries of dungeon.png
 const DUNGEON_MIX_X = 32;
 const DUNGEON_MAX_X = 512 - 32;
@@ -71,7 +81,7 @@ function setup() {
   app.stage.addChild(dungeon);
 
   // Make the exit door
-  const door = createDoor(id["door.png"]);
+  door = createDoor(id["door.png"]);
   door.position.set(32, 0);
   app.stage.addChild(door);
 
@@ -102,6 +112,11 @@ function setup() {
     blobs.push(blob);
   }
 
+  // Create the health bar
+  healthBar = new HealthBar(40);
+  healthBar.position.set(app.stage.width - 170, 4);
+  app.stage.addChild(healthBar);  // TODO: replace with gameScene.addChild
+
   // Start the game loop by adding the `gameLoop` function to
   // Pixi's `ticker` and providing it with a `delta` argument.
   gameState = play;
@@ -114,7 +129,7 @@ function gameLoop(delta: number) {
 }
 
 /**
- * Playing
+ * The Play game state. Playable.
  * @param delta frame time difference
  */
 function play(delta: number) {
@@ -133,6 +148,12 @@ function play(delta: number) {
     // Check for overlap between explorer and blob
     if (spriteCollision(explorer, blob)) {
       explorer.isHit = true;
+      healthBar.addHealth(-1);  // subtract health
+      if (healthBar.health <= 0) {
+        // lose condition
+        gameState = end;
+        endTextMessage = showEndMessage(LOSE_MESSAGE);
+      }
     }
   });
 
@@ -148,4 +169,53 @@ function play(delta: number) {
   }
   // update treasure's position after player has finished updating
   treasure.postUpdate(delta);
+
+  // Check if treasure has reached door
+  if (spriteCollision(treasure, door)) {
+    // win condition
+    gameState = end;
+    endTextMessage = showEndMessage(WIN_MESSAGE);
+  }
+}
+
+/**
+ * The end game state
+ * @param delta
+ */
+function end(delta: number) {
+  // grand entrance for the end message
+  const style = endTextMessage.style;
+  const MAX_FONT_SIZE = 100;
+  const ROTATION_SPEED = 0.15;
+  if (typeof style.fontSize === "number" && style.fontSize < MAX_FONT_SIZE) {
+    style.fontSize += 2;
+  }
+  const TWO_PI = Math.PI * 2;
+  if (endTextMessage.rotation < TWO_PI) {
+    endTextMessage.rotation += ROTATION_SPEED;
+    if (endTextMessage.rotation > TWO_PI) {
+      endTextMessage.rotation = TWO_PI;
+    }
+  }
+}
+
+function showEndMessage(message: string): Text {
+  const style = new TextStyle({
+    fontFamily: "Futura",
+    fontSize: 16,
+    fill: "white",
+    stroke: "#000000",
+    strokeThickness: 6,
+    dropShadow: true,
+    dropShadowColor: "#000000",
+    dropShadowBlur: 4,
+    dropShadowDistance: 6,
+  });
+  const textMessage = new Text(message, style);
+  textMessage.anchor.set(0.5, 0.5);  // anchor right in the middle for spinning
+  textMessage.rotation = 0.1;
+  textMessage.x = app.stage.width / 2;
+  textMessage.y = app.stage.height / 2;
+  app.stage.addChild(textMessage);
+  return textMessage;
 }
