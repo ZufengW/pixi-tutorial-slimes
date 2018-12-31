@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack -p",
+    "deploy": "./deploy.sh",
     "start": "webpack-dev-server -d --content-base ./public",
     "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
