@@ -3,7 +3,7 @@ Like the [Learning Pixi tutorial](https://github.com/kittykatattack/learningPixi
 
 Play it online: http://zufengw.github.io/pixi-tutorial-slimes
 
-Uses [Webpack](https://webpack.js.org/), [TypeScript](https://github.com/Microsoft/TypeScript), [yarn](https://yarnpkg.com/en/), [TSLint](https://github.com/palantir/tslint) and other supporting packages.
+Uses [Webpack](https://webpack.js.org/), [PixiJS](https://github.com/pixijs/pixi.js), [TypeScript](https://github.com/Microsoft/TypeScript), [yarn](https://yarnpkg.com/), [TSLint](https://github.com/palantir/tslint) and other supporting packages.
 
 
 ## Set up
@@ -20,6 +20,8 @@ What you need: [Node.js and npm](https://nodejs.org/en/download/), yarn.
 `yarn run lint` to run linter. Do this and fix errors before you commit.
 
 See all scripts and add more in `package.json`.
+
+Put your things inside `src`.
 
 
 ## Deploy to production
